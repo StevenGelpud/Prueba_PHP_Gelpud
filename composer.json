@@ -1,0 +1,19 @@
+{
+    "name": "jeiso/prueba_gelpud",
+    "autoload": {
+        "psr-4": {
+            "Jeiso\\PruebaGelpud\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "gelpud"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^11.40",
+        "components/jquery": "^3.6.0"
+    }
+}
+
+
