@@ -1,0 +1,55 @@
+-- ========================================
+-- 1. Crear la base de datos
+-- ========================================
+CREATE DATABASE IF NOT EXISTS cruddb_gelpud;
+
+-- ========================================
+-- 2. Usar la base de datos recién creada
+-- ========================================
+USE cruddb_gelpud;
+
+-- ========================================
+-- 3. Crear la tabla `persona`
+-- ========================================
+CREATE TABLE `persona` (
+  `IdPersona` int(11) NOT NULL AUTO_INCREMENT,
+  `Nombres` varchar(100) NOT NULL,
+  `Apellidos` varchar(100) NOT NULL,
+  `Identificacion` varchar(20) NOT NULL,
+  `Genero` char(1) NOT NULL,
+  `FechaNacimiento` date NOT NULL,
+  `Contraseña` varchar(255) NOT NULL,
+  `Activo` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`IdPersona`)
+);
+
+-- ========================================
+-- 4. Crear el procedimiento almacenado `Persona_copia_php`
+-- ========================================
+DELIMITER $$
+
+CREATE PROCEDURE Persona_copia_php()
+BEGIN
+    -- Crear la nueva tabla idéntica a la tabla persona
+    SET @sql = 'CREATE TABLE persona_copia_php LIKE persona';
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    -- Insertar los registros de la tabla persona en la nueva tabla persona_copia_php
+    SET @sql = 'INSERT INTO persona_copia_php SELECT * FROM persona';
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+    
+END $$
+
+DELIMITER ;
+
+-- ========================================
+-- 5. Llamar al procedimiento almacenado para crear la tabla copiada
+-- ========================================
+-- ejecutar para realizar la copia:
+
+CALL Persona_copia_php();
+
